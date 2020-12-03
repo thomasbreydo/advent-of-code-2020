@@ -3,7 +3,7 @@ import itertools
 import math
 
 N_NUMBERS = 3
-INPUT = "input2.txt"
+INPUT = "input2_from_max.txt"
 
 with open(INPUT) as f:
     report = [int(n) for n in f.readlines()]
