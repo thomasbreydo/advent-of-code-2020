@@ -1,0 +1,7 @@
+byr
+iyr
+eyr
+hgt
+hcl
+ecl
+pid
