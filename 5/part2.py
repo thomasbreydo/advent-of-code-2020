@@ -6,10 +6,10 @@ INPUT = "input.txt"
 
 class BoardingPass:
     def __init__(self, row: int, col: int):
-        self.row = row
-        self.col = col
+        self.row: int = row
+        self.col: int = col
 
-    def __lt__(self, other):
+    def __lt__(self, other: object) -> bool:
         if isinstance(other, BoardingPass):
             return self.id < other.id
         return NotImplemented
@@ -30,7 +30,7 @@ class BoardingPass:
         return row, col
 
     @property
-    def id(self):
+    def id(self) -> int:
         return self.row * 8 + self.col
 
 
