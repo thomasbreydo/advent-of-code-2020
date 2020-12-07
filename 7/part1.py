@@ -1,5 +1,5 @@
 import re
-from typing import Pattern, Optional, Match, Dict, List, Any
+from typing import Pattern, Optional, Match, Dict, List, Any, Set
 
 INPUT: str = "input.txt"
 rule_re: Pattern[str] = re.compile(
@@ -31,9 +31,9 @@ bags?  # "bag" or "bags"
 )
 
 
-def get_input_rules() -> Dict[str, Optional[List[str]]]:
+def get_input_rules(input_file: str) -> object:
     rules: Dict[str, Optional[List[str]]] = {}
-    with open(INPUT) as f:
+    with open(input_file) as f:
         line: str
         for line in f.read().split("\n"):
             rule_mo: Optional[Match[str]] = rule_re.match(line)
@@ -48,20 +48,21 @@ def get_input_rules() -> Dict[str, Optional[List[str]]]:
     return rules
 
 
-def get_possible_contents(color, rules):
-    possible_contents = set()
+def get_possible_contents(color: str, rules: Dict[str, Optional[List[str]]]):
+    possible_contents: Set[Any] = set()
+    possible_content: str
     for _, possible_content in rules[color]:
         possible_contents.add(possible_content)
         possible_contents.update(get_possible_contents(possible_content, rules))
     return possible_contents
 
 
-def get_n_containing_color(target_color, rules):
+def get_n_containing_color(target_color: str, rules: Dict[str, Optional[List[str]]]):
     return sum(
         target_color in get_possible_contents(color, rules) for color in rules.keys()
     )
 
 
 if __name__ == "__main__":
-    input_rules = get_input_rules()
+    input_rules: Dict[str, Optional[List[str]]] = get_input_rules(INPUT)
     print(get_n_containing_color("shiny gold", input_rules))
