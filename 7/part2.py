@@ -1,3 +1,4 @@
+import time
 from typing import Dict, Optional, List
 from part1 import get_input_rules
 import functools
@@ -11,6 +12,8 @@ def cache(f_get_n_bags_inside):
 
     @functools.wraps(f_get_n_bags_inside)
     def new(color, rules):
+        nonlocal cache_map
+
         try:
             return cache_map[color]
         except KeyError:
@@ -37,4 +40,7 @@ def get_n_bags_inside(color: str, rules: Dict[str, Optional[List[str]]]) -> int:
 
 if __name__ == "__main__":
     input_rules: Dict[str, Optional[List[str]]] = get_input_rules(INPUT)
+    start = time.time()
     print(get_n_bags_inside(TARGET, input_rules))
+    end = time.time()
+    print(f"Recursion took {(end - start) * 1e3:f} ms")
