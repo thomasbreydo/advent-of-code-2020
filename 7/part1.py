@@ -1,4 +1,6 @@
+import functools
 import re
+import time
 from typing import Pattern, Optional, Match, Dict, List, Any, Set
 
 INPUT: str = "input.txt"
@@ -48,21 +50,31 @@ def get_input_rules(input_file: str) -> object:
     return rules
 
 
-def get_possible_contents(color: str, rules: Dict[str, Optional[List[str]]]):
-    possible_contents: Set[Any] = set()
-    possible_content: str
-    for _, possible_content in rules[color]:
-        possible_contents.add(possible_content)
-        possible_contents.update(get_possible_contents(possible_content, rules))
-    return possible_contents
+INPUT_RULES: Dict[str, Optional[List[str]]] = get_input_rules(INPUT)
 
 
-def get_n_containing_color(target_color: str, rules: Dict[str, Optional[List[str]]]):
+@functools.lru_cache
+def bag_a_contains_target_bag(bag_a: str, target_bag: str):
+    what_bag_a_contains: Set[str] = {bag for _, bag in INPUT_RULES[bag_a]}
+    if not what_bag_a_contains:
+        return False
+    if target_bag in what_bag_a_contains:
+        return True
+    for contained_bag in what_bag_a_contains:
+        if bag_a_contains_target_bag(contained_bag, target_bag):
+            return True
+    return False
+
+
+@functools.lru_cache
+def get_n_containing_color(target_color: str):
     return sum(
-        target_color in get_possible_contents(color, rules) for color in rules.keys()
+        bag_a_contains_target_bag(color, target_color) for color in INPUT_RULES.keys()
     )
 
 
 if __name__ == "__main__":
-    input_rules: Dict[str, Optional[List[str]]] = get_input_rules(INPUT)
-    print(get_n_containing_color("shiny gold", input_rules))
+    start: float = time.time()
+    print(get_n_containing_color("shiny gold"))
+    end: float = time.time()
+    print(f"Recursion took {(end - start) * 1e3:f} ms")
