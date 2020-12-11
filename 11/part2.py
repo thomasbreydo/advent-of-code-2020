@@ -1,6 +1,5 @@
-import itertools
 from typing import List
-
+import time
 from part1 import Seats
 from part1 import NoSeatsChanged
 
@@ -75,9 +74,12 @@ class Seats2(Seats):
 
 if __name__ == "__main__":
     seats: Seats2 = Seats2.fromfile(INPUT)
+    start: float = time.time()
     while True:
         try:
             seats.next_round()
         except NoSeatsChanged:
             break
     print(seats.n_occupied)
+    end: float = time.time()
+    print(f"Found in {end - start} seconds.")
