@@ -13,9 +13,9 @@ def two_sum_to_target(numbers: Iterable[int], target: int) -> bool:
     return False
 
 
-def first_invalid(transmission: Iterable[int], preamble_len: int = 25) -> int:
-    previous: deque = deque(transmission[:25], maxlen=preamble_len)
-    for n in transmission[25:]:
+def first_invalid(transmissions: Iterable[int], preamble_len: int = 25) -> int:
+    previous: deque = deque(transmissions[:25], maxlen=preamble_len)
+    for n in transmissions[25:]:
         if not two_sum_to_target(previous, n):
             return n
         previous.append(n)
