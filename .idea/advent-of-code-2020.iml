@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/11" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/9" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/12" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/13" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/pong" />
     </content>
